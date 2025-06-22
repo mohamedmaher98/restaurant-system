@@ -1,0 +1,6 @@
+Restaurant-front/node_modules/
+Restaurant-front/dist/
+Restaurant-front/.idea/
+.idea
+Restaurant-back/target/
+.vscode/
