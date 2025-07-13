@@ -2,34 +2,20 @@ package com.spring.restaurant.entites;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-
-import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product
+public class Product extends BaseEntity
 {
-	@Id
-	@GeneratedValue
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(columnDefinition = "BINARY(16)")
-	private UUID id;
-
-	private String name;
-
-	private String imagePath;
-
 	@Column(length = 1000)
 	private String description;
 
 	private Double price;
 
 	@ManyToOne
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
-
 }

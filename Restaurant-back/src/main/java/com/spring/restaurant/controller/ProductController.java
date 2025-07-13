@@ -3,43 +3,43 @@ package com.spring.restaurant.controller;
 import com.spring.restaurant.dto.ProductDTO;
 import com.spring.restaurant.serveices.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/products")
 @CrossOrigin("http://localhost:4200")
-public class ProductController {
-
-	@Autowired
-	private ProductService productService;
+public class ProductController
+{
+	private final ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<List<ProductDTO>> getAll() {
-		return ResponseEntity.ok(productService.getAll());
+	public ResponseEntity<List<ProductDTO>> getAllProducts() {
+		return ResponseEntity.ok(productService.getAllProducts());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductDTO> getById(@PathVariable UUID id) {
-		return ResponseEntity.ok(productService.getById(id));
+	public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id) {
+		return ResponseEntity.ok(productService.getProductById(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<ProductDTO> create(@Valid @RequestBody ProductDTO productDTO) {
-		return ResponseEntity.ok(productService.save(productDTO));
+	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+		return ResponseEntity.ok(productService.createProduct(productDTO));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductDTO> update(@PathVariable UUID id, @Valid @RequestBody ProductDTO productDTO) {
-		return ResponseEntity.ok(productService.update(id, productDTO));
+	public ResponseEntity<ProductDTO> updateProduct(@PathVariable UUID id, @Valid @RequestBody ProductDTO productDTO) {
+		return ResponseEntity.ok(productService.updateProduct(id, productDTO));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable UUID id) {
-		productService.delete(id);
+	public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -1,19 +1,18 @@
 package com.spring.restaurant.serveices;
 
 import com.spring.restaurant.dto.ProductDTO;
-import com.spring.restaurant.entites.Product;
 
 import java.util.*;
 
 public interface ProductService
 {
-	List<ProductDTO> getAll();
+	List<ProductDTO> getAllProducts();
 
-	ProductDTO getById(UUID id);
+	ProductDTO getProductById(UUID id);
 
-	ProductDTO save(ProductDTO productDto);
+	ProductDTO createProduct(ProductDTO productDto);
 
-	ProductDTO update(UUID id, ProductDTO productDto);
+	ProductDTO updateProduct(UUID id, ProductDTO productDto);
 
-	void delete(UUID id);
+	void deleteProduct(UUID id);
 }

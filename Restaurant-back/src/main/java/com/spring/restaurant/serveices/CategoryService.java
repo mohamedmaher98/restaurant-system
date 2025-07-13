@@ -1,21 +1,19 @@
 package com.spring.restaurant.serveices;
 
 import com.spring.restaurant.dto.CategoryDTO;
-import com.spring.restaurant.entites.Category;
 
 import java.util.*;
 
 public interface CategoryService
 {
+	List<CategoryDTO> getAllCategories();
 
-	List<CategoryDTO> getAll();
+	CategoryDTO getCategoryById(UUID id);
 
-	CategoryDTO getById(UUID id);
+	CategoryDTO createCategory(CategoryDTO category);
 
-	CategoryDTO save(CategoryDTO category);
+	CategoryDTO updateCategory(UUID id, CategoryDTO category);
 
-	CategoryDTO update(UUID id, CategoryDTO category);
-
-	void delete(UUID id);
+	void deleteCategory(UUID id);
 }
 

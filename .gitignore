@@ -4,3 +4,6 @@ Restaurant-front/.idea/
 .idea
 Restaurant-back/target/
 .vscode/
+Restaurant-back/src/main/resources/application.properties
+Restaurant-front/package-lock.json
+Restaurant-front/package.json

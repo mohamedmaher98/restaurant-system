@@ -5,57 +5,58 @@ import com.spring.restaurant.entites.Category;
 import com.spring.restaurant.mapper.CategoryMapper;
 import com.spring.restaurant.repo.CategoryRepository;
 import com.spring.restaurant.serveices.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService
 {
-	@Autowired
-	private CategoryRepository repository;
+	private final CategoryRepository repository;
 
-	@Autowired
-	private CategoryMapper categoryMapper;
+	private final CategoryMapper mapper = CategoryMapper.INSTANCE;
 
 	@Override
-	public List<CategoryDTO> getAll()
+	public List<CategoryDTO> getAllCategories()
 	{
-		return repository.findAll().stream().map(categoryMapper::toDTO).toList();
+		return repository.findAllByOrderByNameAsc().stream().map(mapper::toDto).toList();
 	}
 
 	@Override
-	public CategoryDTO getById(UUID id)
+	public CategoryDTO getCategoryById(UUID id)
 	{
-		Category category = repository.findById(id).orElseThrow(() -> new RuntimeException("No Category Found"));
-		return categoryMapper.toDTO(category);
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new RuntimeException("No Category Found with id: " + id)));
 	}
 
 	@Override
-	public CategoryDTO save(CategoryDTO categorydto)
+	public CategoryDTO createCategory(CategoryDTO categorydto)
 	{
-		Category category = categoryMapper.toEntity(categorydto);
-		Category savedCategory =repository.save(category);
-		return categoryMapper.toDTO(savedCategory);
+		Category category = repository.save(mapper.toEntity(categorydto));
+		return mapper.toDto(category);
 	}
 
 	@Override
-	public CategoryDTO update(UUID id, CategoryDTO updatedCategory)
+	public CategoryDTO updateCategory(UUID id, CategoryDTO updatedCategory)
 	{
 		Category category= repository.findById(id).orElseThrow(()->new RuntimeException("No Category Found"));
+		updateCategory(updatedCategory, category);
+		return mapper.toDto(repository.save(category));
+	}
+
+	private static void updateCategory(CategoryDTO updatedCategory, Category category)
+	{
 		category.setName(updatedCategory.getName());
 		category.setFlag(updatedCategory.getFlag());
-		category.setLogo(updatedCategory.getLogo());
-		repository.save(category);
-		return categoryMapper.toDTO(category);
+		category.setImagePath(updatedCategory.getImagePath());
 	}
 
 	@Override
-	public void delete(UUID id)
+	public void deleteCategory(UUID id)
 	{
-		Category category = repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Category not found"));
+		if (!repository.existsById(id))
+			throw new RuntimeException("Category not found with id: " + id);
 		repository.deleteById(id);
 	}
 }

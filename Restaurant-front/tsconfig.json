@@ -4,6 +4,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@env": [
+        "src/environments/environment"
+      ]
+    },
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,

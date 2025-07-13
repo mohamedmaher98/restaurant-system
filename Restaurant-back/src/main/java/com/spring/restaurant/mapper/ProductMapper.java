@@ -2,15 +2,15 @@ package com.spring.restaurant.mapper;
 
 import com.spring.restaurant.dto.ProductDTO;
 import com.spring.restaurant.entites.Product;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper
 {
+	ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-	ProductDTO toDto(Product Product);
+	ProductDTO toDto(Product product);
 
-	@Mapping(target = "category" ,ignore = true)
-	Product toEntity(ProductDTO productDTO);
-
+	Product toEntity(ProductDTO productDto);
 }

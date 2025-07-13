@@ -5,60 +5,61 @@ import com.spring.restaurant.entites.Product;
 import com.spring.restaurant.mapper.ProductMapper;
 import com.spring.restaurant.repo.ProductRepository;
 import com.spring.restaurant.serveices.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImp implements ProductService
 {
-	@Autowired
-	private ProductRepository repository;
-
-	@Autowired
-	private ProductMapper productMapper;
+	private final ProductRepository repository;
+	private final ProductMapper mapper = ProductMapper.INSTANCE;
 
 	@Override
-	public List<ProductDTO> getAll() {
-		return repository.findAll()
-				.stream()
-				.map(productMapper::toDto)
-				.toList();
+	public List<ProductDTO> getAllProducts()
+	{
+		return repository.findAll().stream().map(mapper::toDto).toList();
 	}
 
 	@Override
-	public ProductDTO getById(UUID id) {
-		Product product = repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Product not found"));
-		return productMapper.toDto(product);
+	public ProductDTO getProductById(UUID id)
+	{
+		Product product = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+		return mapper.toDto(product);
 	}
 
 	@Override
-	public ProductDTO save(ProductDTO productDTO) {
-		Product product = productMapper.toEntity(productDTO);
+	public ProductDTO createProduct(ProductDTO productDTO)
+	{
+		Product product = mapper.toEntity(productDTO);
 		Product savedProduct = repository.save(product);
-		return productMapper.toDto(savedProduct);
+		return mapper.toDto(savedProduct);
 	}
 
 	@Override
-	public ProductDTO update(UUID id, ProductDTO updatedProduct) {
-		Product existingProduct = repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Product not found"));
-
-		existingProduct.setName(updatedProduct.name());
-		existingProduct.setImagePath(updatedProduct.imagePath());
-		existingProduct.setDescription(updatedProduct.description());
-		existingProduct.setPrice(updatedProduct.price());
-
+	public ProductDTO updateProduct(UUID id, ProductDTO updatedProduct)
+	{
+		Product existingProduct = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+		updateProduct(updatedProduct, existingProduct);
 		Product saved = repository.save(existingProduct);
-		return productMapper.toDto(saved);
+		return mapper.toDto(saved);
+	}
+
+	private static void updateProduct(ProductDTO updatedProduct, Product existingProduct)
+	{
+		existingProduct.setName(updatedProduct.getName());
+		existingProduct.setImagePath(updatedProduct.getImagePath());
+		existingProduct.setDescription(updatedProduct.getDescription());
+		existingProduct.setPrice(updatedProduct.getPrice());
 	}
 
 	@Override
-	public void delete(UUID id) {
-		Product product = repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Product not found"));
-		repository.delete(product);
+	public void deleteProduct(UUID id)
+	{
+		if (!repository.existsById(id))
+			throw new RuntimeException("Product not found with id: " + id);
+		repository.deleteById(id);
 	}
 }
