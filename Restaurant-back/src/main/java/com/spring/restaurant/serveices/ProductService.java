@@ -15,4 +15,6 @@ public interface ProductService
 	ProductDTO updateProduct(UUID id, ProductDTO productDto);
 
 	void deleteProduct(UUID id);
+
+	List<ProductDTO> findByCategoryIdHex(UUID categoryId);
 }

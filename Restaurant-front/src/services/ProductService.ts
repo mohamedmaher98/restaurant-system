@@ -17,4 +17,8 @@ export class ProductService {
     return this.http.get<Product[]>(ApiProvider.getFullUrl(ApiEndpoints.PRODUCTS));
   }
 
+  getProductsByCategoryId(categoryId: string): Observable<Product[]> {
+    return this.http.get<Product[]>(ApiProvider.getFullUrl(ApiEndpoints.FIND_PRODUCTS_BY_CATEGORY_ID + `/${categoryId}`));
+  }
+
 }

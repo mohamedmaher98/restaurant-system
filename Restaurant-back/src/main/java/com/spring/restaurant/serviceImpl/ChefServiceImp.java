@@ -15,7 +15,7 @@ import java.util.*;
 public class ChefServiceImp implements ChefService
 {
 	private final ChefRepository repository;
-	private final ChefMapper mapper = ChefMapper.INSTANCE;
+	private final ChefMapper mapper;
 
 	@Override
 	public List<ChefDTO> getAllChefs()

@@ -1,6 +1,6 @@
 <ul class="nav nav-pills d-inline-flex justify-content-center mb-5 mt-2">
   <li class="nav-item" *ngFor="let cat of categories">
-    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-item"
+    <a [routerLink]="cat.name === 'ALL' ? '/products':'/category/'+cat.id" class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-item"
        [ngClass]="{'active':cat.name === 'ALL'}"
        data-bs-toggle="pill"
        href="">

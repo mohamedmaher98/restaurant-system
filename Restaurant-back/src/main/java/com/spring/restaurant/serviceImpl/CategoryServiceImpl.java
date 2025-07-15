@@ -16,7 +16,7 @@ public class CategoryServiceImpl implements CategoryService
 {
 	private final CategoryRepository repository;
 
-	private final CategoryMapper mapper = CategoryMapper.INSTANCE;
+	private final CategoryMapper mapper;
 
 	@Override
 	public List<CategoryDTO> getAllCategories()

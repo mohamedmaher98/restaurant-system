@@ -15,7 +15,7 @@ import java.util.*;
 public class ProductServiceImp implements ProductService
 {
 	private final ProductRepository repository;
-	private final ProductMapper mapper = ProductMapper.INSTANCE;
+	private final ProductMapper mapper;
 
 	@Override
 	public List<ProductDTO> getAllProducts()
@@ -62,4 +62,11 @@ public class ProductServiceImp implements ProductService
 			throw new RuntimeException("Product not found with id: " + id);
 		repository.deleteById(id);
 	}
+
+	@Override
+	public List<ProductDTO> findByCategoryIdHex(UUID categoryId)
+	{
+		return repository.findByCategoryId(categoryId).stream().map(mapper::toDto).toList();
+	}
+
 }

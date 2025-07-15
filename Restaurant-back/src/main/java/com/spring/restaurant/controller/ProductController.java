@@ -12,7 +12,7 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class ProductController
 {
 	private final ProductService productService;
@@ -41,5 +41,11 @@ public class ProductController
 	public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
 		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/findProductsByCategoryId/{categoryId}")
+	public ResponseEntity<List<ProductDTO>> fetchProductsByCategoryId(@PathVariable UUID categoryId)
+	{
+		return ResponseEntity.ok(productService.findByCategoryIdHex(categoryId));
 	}
 }
