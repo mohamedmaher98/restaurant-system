@@ -4,6 +4,7 @@ import com.spring.restaurant.dto.ProductDTO;
 import com.spring.restaurant.serveices.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +13,19 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
-@CrossOrigin("*")
 public class ProductController
 {
 	private final ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<List<ProductDTO>> getAllProducts() {
-		return ResponseEntity.ok(productService.getAllProducts());
+	public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam(defaultValue = "1") int pageNo,
+			@RequestParam(defaultValue = "10") int pageSize)
+	{
+		if (pageNo <= 0)
+		{
+			throw new RuntimeException("Page Number starts with 1");
+		}
+		return ResponseEntity.ok(productService.getAllProducts(PageRequest.of(pageNo, pageSize)));
 	}
 
 	@GetMapping("/{id}")
@@ -46,6 +52,12 @@ public class ProductController
 	@GetMapping("/findProductsByCategoryId/{categoryId}")
 	public ResponseEntity<List<ProductDTO>> fetchProductsByCategoryId(@PathVariable UUID categoryId)
 	{
-		return ResponseEntity.ok(productService.findByCategoryIdHex(categoryId));
+		return ResponseEntity.ok(productService.findByCategoryId(categoryId));
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<List<ProductDTO>> searchByProductNama(@RequestParam String key)
+	{
+		return ResponseEntity.ok(productService.searchByProductNama(key));
 	}
 }

@@ -12,7 +12,6 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/chefs")
-@CrossOrigin(origins = "*")
 public class ChefController
 {
 	private final ChefService chefService;

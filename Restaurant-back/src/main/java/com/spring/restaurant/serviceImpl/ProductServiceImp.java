@@ -6,6 +6,7 @@ import com.spring.restaurant.mapper.ProductMapper;
 import com.spring.restaurant.repo.ProductRepository;
 import com.spring.restaurant.serveices.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,9 +19,9 @@ public class ProductServiceImp implements ProductService
 	private final ProductMapper mapper;
 
 	@Override
-	public List<ProductDTO> getAllProducts()
+	public List<ProductDTO> getAllProducts(Pageable pageable)
 	{
-		return repository.findAll().stream().map(mapper::toDto).toList();
+		return repository.findAll(pageable).stream().map(mapper::toDto).toList();
 	}
 
 	@Override
@@ -64,9 +65,15 @@ public class ProductServiceImp implements ProductService
 	}
 
 	@Override
-	public List<ProductDTO> findByCategoryIdHex(UUID categoryId)
+	public List<ProductDTO> findByCategoryId(UUID categoryId)
 	{
 		return repository.findByCategoryId(categoryId).stream().map(mapper::toDto).toList();
+	}
+
+	@Override
+	public List<ProductDTO> searchByProductNama(String key)
+	{
+		return repository.findByNameContainingIgnoreCase(key).stream().map(mapper::toDto).toList();
 	}
 
 }

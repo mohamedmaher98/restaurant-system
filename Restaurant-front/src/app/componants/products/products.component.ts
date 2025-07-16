@@ -10,6 +10,9 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class ProductsComponent implements OnInit {
   products: Product[];
+  currentPageNumber = 1;
+  productsNumberPerPage = 10;
+  totalProductsNumber = 60;
 
   constructor(private prodService: ProductService, private activatedRoute: ActivatedRoute) {
   }
@@ -21,23 +24,31 @@ export class ProductsComponent implements OnInit {
 
   private fetchProducts() {
     const paramMap = this.activatedRoute.snapshot.paramMap;
-    const isExist = paramMap.has('id');
-    if (isExist) {
-      const id = paramMap.get('id');
-      console.log(`id:${id}`);
-      this.getProductsByCategoryId(id);
+    if (paramMap.has('id')) {
+      this.getProductsByCategoryId(paramMap.get('id'));
+    } else if (paramMap.has('key')) {
+      this.searchByProductNama(paramMap.get('key'));
     } else {
-      this.getAllProducts();
+      this.getAllProducts(this.currentPageNumber, this.productsNumberPerPage);
     }
   }
 
-  getAllProducts() {
-    const products = this.prodService.getAllProduct();
+  getAllProducts(pageNo, pageSize) {
+    const products = this.prodService.getAllProduct(pageNo, pageSize);
     products.subscribe(r => this.products = r);
   }
 
   getProductsByCategoryId(categoryId: string) {
     const products = this.prodService.getProductsByCategoryId(categoryId);
     products.subscribe(p => this.products = p);
+  }
+
+  searchByProductNama(key: string) {
+    const products = this.prodService.searchByProductNama(key);
+    products.subscribe(p => this.products = p);
+  }
+
+  doPagination() {
+    this.getAllProducts(this.currentPageNumber, this.productsNumberPerPage);
   }
 }

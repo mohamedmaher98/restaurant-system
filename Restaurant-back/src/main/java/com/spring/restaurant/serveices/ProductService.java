@@ -1,12 +1,13 @@
 package com.spring.restaurant.serveices;
 
 import com.spring.restaurant.dto.ProductDTO;
+import org.springframework.data.domain.*;
 
 import java.util.*;
 
 public interface ProductService
 {
-	List<ProductDTO> getAllProducts();
+	List<ProductDTO> getAllProducts(Pageable pageable);
 
 	ProductDTO getProductById(UUID id);
 
@@ -16,5 +17,7 @@ public interface ProductService
 
 	void deleteProduct(UUID id);
 
-	List<ProductDTO> findByCategoryIdHex(UUID categoryId);
+	List<ProductDTO> findByCategoryId(UUID categoryId);
+
+	List<ProductDTO> searchByProductNama(String key);
 }

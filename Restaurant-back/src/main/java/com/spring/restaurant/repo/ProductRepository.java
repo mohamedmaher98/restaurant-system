@@ -12,4 +12,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID>
 {
 	@Query("SELECT p FROM Product p JOIN p.category c WHERE c.id = :categoryId")
 	List<Product> findByCategoryId(@Param("categoryId") UUID categoryId);
+
+	List<Product> findByNameContainingIgnoreCase(String name);
 }
