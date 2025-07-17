@@ -1,9 +1,10 @@
 <ul class="nav nav-pills d-inline-flex justify-content-center mb-5 mt-2">
   <li class="nav-item" *ngFor="let cat of categories">
-    <a [routerLink]="cat.name === 'ALL' ? '/products':'/category/'+cat.id" class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-item"
-       [ngClass]="{'active':cat.name === 'ALL'}"
-       data-bs-toggle="pill"
-       href="">
+    <a [routerLink]="cat.name === 'ALL' ? '/products':'/category/'+cat.id"
+       class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-item"
+       [ngClass]="{'active': isActiveCategory(cat.name)}"
+       routerLinkActive="active"
+       data-bs-toggle="pill">
       <i class="fa {{cat.imagePath}} fa-2x text-primary"></i>
       <div class="ps-3">
         <small class="text-body">{{cat.flag}}</small>

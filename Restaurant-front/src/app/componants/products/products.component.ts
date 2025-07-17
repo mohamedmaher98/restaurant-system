@@ -40,11 +40,13 @@ export class ProductsComponent implements OnInit {
 
   getProductsByCategoryId(categoryId: string) {
     const products = this.prodService.getProductsByCategoryId(categoryId);
+    console.log(products);
     products.subscribe(p => this.products = p);
   }
 
   searchByProductNama(key: string) {
     const products = this.prodService.searchByProductNama(key);
+    console.log(products);
     products.subscribe(p => this.products = p);
   }
 

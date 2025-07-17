@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryService} from '../../../services/category.service';
 import {Category} from '../../../model/Category';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-category',
@@ -11,7 +12,7 @@ export class CategoryComponent implements OnInit {
 
   categories: Category[] = [];
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private router: Router) {
 
   }
 
@@ -19,11 +20,17 @@ export class CategoryComponent implements OnInit {
     this.getAllCategories();
   }
 
-  // tslint:disable-next-line:typedef
   getAllCategories() {
     const categories = this.categoryService.getCategories();
     categories.subscribe(
       response => this.categories = response
     );
+  }
+
+  isActiveCategory(categoryName: string): boolean {
+    if (categoryName === 'ALL') {
+      return this.router.isActive(`/products`, true);
+    }
+    return false;
   }
 }
