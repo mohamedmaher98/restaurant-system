@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="usernameOrEmail">Username or Email</label>
+      <input type="text" class="form-control" id="usernameOrEmail" formControlName="usernameOrEmail">
+      <div *ngIf="submitted && f.usernameOrEmail.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.usernameOrEmail.errors.required">Username or Email is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+    </div>
+    <div *ngIf="errorMessage" class="error-message alert-danger py-2">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" [disabled]="isLoggingIn" class="py-2 btn btn-primary">
+      {{ isLoggingIn ? 'Logging in...' : 'Login' }}
+    </button>
+  </form>
+  <p class="py-2">Don't have an account? <a routerLink="/register" >Register here</a></p>
+</div>

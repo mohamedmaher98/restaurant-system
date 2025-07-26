@@ -1,0 +1,70 @@
+<div class="container">
+  <h2>Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.email.errors.required">Email is required</div>
+        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" class="form-control" id="fullName" formControlName="fullName">
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.fullName.errors.required">Name is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" formControlName="username">
+      <div *ngIf="submitted && f.username.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.username.errors.required">Username is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+      <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+        <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="tel" class="form-control" id="phone" formControlName="phone">
+      <div *ngIf="submitted && f.phone.errors" class="invalid-feedback d-block">
+        <div *ngIf="f.phone.errors.required">Phone is required</div>
+        <div *ngIf="f.phone.errors.minlength">Phone must be a valid phone number</div>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message alert-danger py-2">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="success-message alert-success py-2">
+      {{ successMessage }}
+    </div>
+
+    <button type="submit" [disabled]="isRegistering" class="py-2 btn btn-primary">
+      {{ isRegistering ? 'Registering...' : 'Register' }}
+    </button>
+  </form>
+
+  <p class="py-2">Already have an account? <a routerLink="/login">Login here</a></p>
+</div>

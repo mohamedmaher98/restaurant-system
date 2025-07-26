@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,8 +9,7 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent {
 
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthService) {
   }
 
   performSearch(searchKey: string) {
@@ -18,5 +18,9 @@ export class HeaderComponent {
     } else {
       this.router.navigate(['/search', searchKey]);
     }
+  }
+
+  get getAuth() {
+    return this.auth;
   }
 }

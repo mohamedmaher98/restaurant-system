@@ -32,6 +32,16 @@
           [boundaryLinks]="true"
         >
         </ngb-pagination>
+        <div class="d-flex align-items-center mb-3">
+          <span class="me-2">Page Size</span>
+          <select class="form-select form-select-sm w-auto" (change)="changePageSize($event)">
+            <option value="2">2</option>
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Product} from '../../../model/Product';
-import {ProductService} from '../../../services/ProductService';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../../../model/Product';
+import { ProductService } from '../../../services/ProductService';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -29,28 +29,31 @@ export class ProductsComponent implements OnInit {
     } else if (paramMap.has('key')) {
       this.searchByProductNama(paramMap.get('key'));
     } else {
-      this.getAllProducts(this.currentPageNumber, this.productsNumberPerPage);
+      this.getAllProducts();
     }
   }
 
-  getAllProducts(pageNo, pageSize) {
-    const products = this.prodService.getAllProduct(pageNo, pageSize);
+  getAllProducts() {
+    const products = this.prodService.getAllProduct(this.currentPageNumber, this.productsNumberPerPage);
     products.subscribe(r => this.products = r);
   }
 
   getProductsByCategoryId(categoryId: string) {
     const products = this.prodService.getProductsByCategoryId(categoryId);
-    console.log(products);
     products.subscribe(p => this.products = p);
   }
 
   searchByProductNama(key: string) {
     const products = this.prodService.searchByProductNama(key);
-    console.log(products);
     products.subscribe(p => this.products = p);
   }
 
   doPagination() {
-    this.getAllProducts(this.currentPageNumber, this.productsNumberPerPage);
+    this.getAllProducts();
+  }
+
+  changePageSize(event) {
+    this.productsNumberPerPage = +event.target.value;
+    this.getAllProducts();
   }
 }
