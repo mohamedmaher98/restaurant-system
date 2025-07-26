@@ -19,7 +19,8 @@
         <div class="nav-item nav-link active"></div>
         <div class="nav-item nav-link active" [ngClass]="getAuth.isAuthenticated?'d-none' : ''"><a routerLink="/login">Login</a></div>
         <div class="nav-item nav-link active"></div>
-        <div class="nav-item nav-link active" [ngClass]="getAuth.isAuthenticated?'' : 'd-none'"><a (click)="getAuth.logout()">Logout</a></div>
+        <div class="nav-item nav-link active" [ngClass]="getAuth.isAuthenticated?'' : 'd-none'"><a routerLink="/login" (click)="getAuth.logout()">Logout</a>
+        </div>
         <div class="nav-item nav-link active"></div>
         <div class="nav-item nav-link active" [ngClass]="getAuth.isAuthenticated?'d-none': ''"><a routerLink="/register">Signup</a></div>
         <div class="nav-item nav-link active"></div>
