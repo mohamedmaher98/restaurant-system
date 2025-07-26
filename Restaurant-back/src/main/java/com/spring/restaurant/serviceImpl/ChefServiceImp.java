@@ -2,6 +2,7 @@ package com.spring.restaurant.serviceImpl;
 
 import com.spring.restaurant.dto.ChefDTO;
 import com.spring.restaurant.entites.Chef;
+import com.spring.restaurant.exception.RestaurantException;
 import com.spring.restaurant.mapper.ChefMapper;
 import com.spring.restaurant.repo.ChefRepository;
 import com.spring.restaurant.serveices.ChefService;
@@ -26,7 +27,7 @@ public class ChefServiceImp implements ChefService
 	@Override
 	public ChefDTO getChefById(UUID id)
 	{
-		return mapper.toDto(repository.findById(id).orElseThrow(() -> new RuntimeException("Chef not found with id: " + id)));
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new RestaurantException("Chef not found with id: " + id)));
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class ChefServiceImp implements ChefService
 	@Override
 	public ChefDTO updateChef(UUID id, ChefDTO chefDTO)
 	{
-		Chef existingChef = repository.findById(id).orElseThrow(() -> new RuntimeException("Chef not found with id: " + id));
+		Chef existingChef = repository.findById(id).orElseThrow(() -> new RestaurantException("Chef not found with id: " + id));
 		Chef updatedChef = mapper.toEntity(chefDTO);
 		updateChef(existingChef, updatedChef);
 		return mapper.toDto(repository.save(updatedChef));
@@ -58,7 +59,7 @@ public class ChefServiceImp implements ChefService
 	public void deleteChef(UUID id)
 	{
 		if (!repository.existsById(id))
-			throw new RuntimeException("Chef not found with id: " + id);
+			throw new RestaurantException("Chef not found with id: " + id);
 		repository.deleteById(id);
 	}
 }

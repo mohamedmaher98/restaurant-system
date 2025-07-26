@@ -2,6 +2,7 @@ package com.spring.restaurant.serviceImpl;
 
 import com.spring.restaurant.dto.CategoryDTO;
 import com.spring.restaurant.entites.Category;
+import com.spring.restaurant.exception.RestaurantException;
 import com.spring.restaurant.mapper.CategoryMapper;
 import com.spring.restaurant.repo.CategoryRepository;
 import com.spring.restaurant.serveices.CategoryService;
@@ -27,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService
 	@Override
 	public CategoryDTO getCategoryById(UUID id)
 	{
-		return mapper.toDto(repository.findById(id).orElseThrow(() -> new RuntimeException("No Category Found with id: " + id)));
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new RestaurantException("No Category Found with id: " + id)));
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService
 	@Override
 	public CategoryDTO updateCategory(UUID id, CategoryDTO updatedCategory)
 	{
-		Category category= repository.findById(id).orElseThrow(()->new RuntimeException("No Category Found"));
+		Category category = repository.findById(id).orElseThrow(() -> new RestaurantException("No Category Found"));
 		updateCategory(updatedCategory, category);
 		return mapper.toDto(repository.save(category));
 	}
@@ -56,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService
 	public void deleteCategory(UUID id)
 	{
 		if (!repository.existsById(id))
-			throw new RuntimeException("Category not found with id: " + id);
+			throw new RestaurantException("Category not found with id: " + id);
 		repository.deleteById(id);
 	}
 }

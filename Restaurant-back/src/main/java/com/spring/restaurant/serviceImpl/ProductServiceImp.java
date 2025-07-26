@@ -2,6 +2,7 @@ package com.spring.restaurant.serviceImpl;
 
 import com.spring.restaurant.dto.ProductDTO;
 import com.spring.restaurant.entites.Product;
+import com.spring.restaurant.exception.RestaurantException;
 import com.spring.restaurant.mapper.ProductMapper;
 import com.spring.restaurant.repo.ProductRepository;
 import com.spring.restaurant.serveices.ProductService;
@@ -21,13 +22,13 @@ public class ProductServiceImp implements ProductService
 	@Override
 	public List<ProductDTO> getAllProducts(Pageable pageable)
 	{
-		return repository.findAll(pageable).stream().map(mapper::toDto).toList();
+		return repository.findAll(pageable).getContent().stream().map(mapper::toDto).toList();
 	}
 
 	@Override
 	public ProductDTO getProductById(UUID id)
 	{
-		Product product = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+		Product product = repository.findById(id).orElseThrow(() -> new RestaurantException("Product not found with id: " + id));
 		return mapper.toDto(product);
 	}
 
@@ -42,7 +43,7 @@ public class ProductServiceImp implements ProductService
 	@Override
 	public ProductDTO updateProduct(UUID id, ProductDTO updatedProduct)
 	{
-		Product existingProduct = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+		Product existingProduct = repository.findById(id).orElseThrow(() -> new RestaurantException("Product not found with id: " + id));
 		updateProduct(updatedProduct, existingProduct);
 		Product saved = repository.save(existingProduct);
 		return mapper.toDto(saved);
@@ -60,7 +61,7 @@ public class ProductServiceImp implements ProductService
 	public void deleteProduct(UUID id)
 	{
 		if (!repository.existsById(id))
-			throw new RuntimeException("Product not found with id: " + id);
+			throw new RestaurantException("Product not found with id: " + id);
 		repository.deleteById(id);
 	}
 

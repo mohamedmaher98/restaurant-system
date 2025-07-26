@@ -1,6 +1,7 @@
 package com.spring.restaurant.controller;
 
 import com.spring.restaurant.dto.ProductDTO;
+import com.spring.restaurant.exception.RestaurantException;
 import com.spring.restaurant.serveices.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,28 +24,32 @@ public class ProductController
 	{
 		if (pageNo <= 0)
 		{
-			throw new RuntimeException("Page Number starts with 1");
+			throw new RestaurantException("Page Number starts with 1");
 		}
-		return ResponseEntity.ok(productService.getAllProducts(PageRequest.of(pageNo, pageSize)));
+		return ResponseEntity.ok(productService.getAllProducts(PageRequest.of(pageNo - 1, pageSize)));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id) {
+	public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id)
+	{
 		return ResponseEntity.ok(productService.getProductById(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+	public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO)
+	{
 		return ResponseEntity.ok(productService.createProduct(productDTO));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductDTO> updateProduct(@PathVariable UUID id, @Valid @RequestBody ProductDTO productDTO) {
+	public ResponseEntity<ProductDTO> updateProduct(@PathVariable UUID id, @Valid @RequestBody ProductDTO productDTO)
+	{
 		return ResponseEntity.ok(productService.updateProduct(id, productDTO));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+	public ResponseEntity<Void> deleteProduct(@PathVariable UUID id)
+	{
 		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
